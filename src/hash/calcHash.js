@@ -5,11 +5,11 @@ import { pipeline } from 'node:stream/promises';
 import { getDirname } from '../utils/path/getDirname.js';
 
 const __dirname = getDirname(import.meta.url);
-const DESTINATION = resolve(__dirname, './files/fileToCalculateHashFor.txt');
+const FILE_PATH = resolve(__dirname, './files/fileToCalculateHashFor.txt');
 
 const calculateHash = async () => {
   const hash = createHash('sha256');
-  const rstream = createReadStream(DESTINATION);
+  const rstream = createReadStream(FILE_PATH);
 
   try {
     await pipeline(rstream, hash);

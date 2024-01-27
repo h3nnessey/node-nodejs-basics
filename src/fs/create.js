@@ -5,11 +5,11 @@ import { FileSystemError } from '../utils/error/FileSystemError.js';
 
 const __dirname = getDirname(import.meta.url);
 const CONTENT = 'I am fresh and young';
-const DESTINATION = resolve(__dirname, './files/fresh.txt');
+const FILE_PATH = resolve(__dirname, './files/fresh.txt');
 
 const create = async () => {
   try {
-    await writeFile(DESTINATION, CONTENT, { flag: 'wx+' });
+    await writeFile(FILE_PATH, CONTENT, { flag: 'wx+' });
   } catch {
     throw new FileSystemError();
   }
