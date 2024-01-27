@@ -1,12 +1,13 @@
 import { Transform } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
+import { EOL } from 'node:os';
 
 const transform = async () => {
   const tstream = new Transform({
     transform(chunk, encoding, callback) {
       const reversedChunk = chunk.toString().trim().split('').reverse().join('');
 
-      callback(null, reversedChunk + '\n');
+      callback(null, reversedChunk + EOL);
     },
   });
 
