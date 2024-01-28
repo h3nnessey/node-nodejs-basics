@@ -1,18 +1,17 @@
-import { resolve } from 'node:path';
 import { createReadStream } from 'node:fs';
 import { pipeline } from 'node:stream/promises';
-import { getDirname } from '../utils/path/getDirname.js';
+import { getPathToFile } from '../utils/path/getPathToFile.js';
+import { validateError } from '../utils/error/validateError.js';
 
-const __dirname = getDirname(import.meta.url);
-const FILE_PATH = resolve(__dirname, './files/fileToRead.txt');
+const FILE_PATH = getPathToFile(import.meta.url, './files/fileToRead.txt');
 
 const read = async () => {
-  const rstream = createReadStream(FILE_PATH, 'utf-8');
+  const readStream = createReadStream(FILE_PATH, 'utf-8');
 
   try {
-    await pipeline(rstream, process.stdout);
+    await pipeline(readStream, process.stdout);
   } catch (error) {
-    console.error(error instanceof Error ? error.message : 'Failed to read file');
+    console.error(validateError(error, 'Failed to read data'));
   }
 };
 

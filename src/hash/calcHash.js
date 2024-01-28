@@ -1,22 +1,21 @@
-import { resolve } from 'node:path';
 import { createReadStream } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { pipeline } from 'node:stream/promises';
-import { getDirname } from '../utils/path/getDirname.js';
+import { getPathToFile } from '../utils/path/getPathToFile.js';
+import { validateError } from '../utils/error/validateError.js';
 
-const __dirname = getDirname(import.meta.url);
-const FILE_PATH = resolve(__dirname, './files/fileToCalculateHashFor.txt');
+const FILE_PATH = getPathToFile(import.meta.url, './files/fileToCalculateHashFor.txt');
 
 const calculateHash = async () => {
   const hash = createHash('sha256');
-  const rstream = createReadStream(FILE_PATH);
+  const readStream = createReadStream(FILE_PATH);
 
   try {
-    await pipeline(rstream, hash);
+    await pipeline(readStream, hash);
 
     console.log(hash.digest('hex'));
   } catch (error) {
-    console.error(error instanceof Error ? error.message : 'Failed to calculate hash');
+    console.error(validateError(error, 'Failed to calculate hash'));
   }
 };
 

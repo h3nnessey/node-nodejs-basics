@@ -1,18 +1,17 @@
-import { resolve } from 'node:path';
 import { createWriteStream } from 'node:fs';
 import { pipeline } from 'node:stream/promises';
-import { getDirname } from '../utils/path/getDirname.js';
+import { getPathToFile } from '../utils/path/getPathToFile.js';
+import { validateError } from '../utils/error/validateError.js';
 
-const __dirname = getDirname(import.meta.url);
-const FILE_PATH = resolve(__dirname, './files/fileToWrite.txt');
+const FILE_PATH = getPathToFile(import.meta.url, './files/fileToWrite.txt');
 
 const write = async () => {
-  const wstream = createWriteStream(FILE_PATH, 'utf-8');
+  const writeStream = createWriteStream(FILE_PATH, 'utf-8');
 
   try {
-    await pipeline(process.stdin, wstream);
+    await pipeline(process.stdin, writeStream);
   } catch (error) {
-    console.error(error instanceof Error ? error.message : 'Failed to write file');
+    console.error(validateError(error, 'Failed to write data'));
   }
 };
 
