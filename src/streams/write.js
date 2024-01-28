@@ -1,9 +1,9 @@
 import { createWriteStream } from 'node:fs';
 import { pipeline } from 'node:stream/promises';
-import { getPathToFile } from '../utils/path/getPathToFile.js';
+import { getResolvedPath } from '../utils/path/getResolvedPath.js';
 import { validateError } from '../utils/error/validateError.js';
 
-const FILE_PATH = getPathToFile(import.meta.url, './files/fileToWrite.txt');
+const FILE_PATH = getResolvedPath(import.meta.url, './files/fileToWrite.txt');
 
 const write = async () => {
   const writeStream = createWriteStream(FILE_PATH, 'utf-8');

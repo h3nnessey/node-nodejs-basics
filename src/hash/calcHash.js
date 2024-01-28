@@ -1,10 +1,10 @@
 import { createReadStream } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { pipeline } from 'node:stream/promises';
-import { getPathToFile } from '../utils/path/getPathToFile.js';
+import { getResolvedPath } from '../utils/path/getResolvedPath.js';
 import { validateError } from '../utils/error/validateError.js';
 
-const FILE_PATH = getPathToFile(import.meta.url, './files/fileToCalculateHashFor.txt');
+const FILE_PATH = getResolvedPath(import.meta.url, './files/fileToCalculateHashFor.txt');
 
 const calculateHash = async () => {
   const hash = createHash('sha256');

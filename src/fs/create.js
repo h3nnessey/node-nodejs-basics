@@ -1,8 +1,8 @@
 import { writeFile } from 'node:fs/promises';
-import { getPathToFile } from '../utils/path/getPathToFile.js';
+import { getResolvedPath } from '../utils/path/getResolvedPath.js';
 import { FileSystemError } from '../utils/error/FileSystemError.js';
 
-const FILE_PATH = getPathToFile(import.meta.url, './files/fresh.txt');
+const FILE_PATH = getResolvedPath(import.meta.url, './files/fresh.txt');
 const CONTENT = 'I am fresh and young';
 
 const create = async () => {
