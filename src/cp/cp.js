@@ -1,4 +1,5 @@
 import { spawn } from 'node:child_process';
+import { EOL } from 'node:os';
 import { getResolvedPath } from '../utils/path/getResolvedPath.js';
 
 const SCRIPT_PATH = getResolvedPath(import.meta.url, './files/script.js');
@@ -13,6 +14,11 @@ const spawnChildProcess = async (args) => {
 
   // the stdout of the child process sends data to the stdout of the master process
   childProcess.stdout.pipe(process.stdout);
+
+  // notification about closing a child process when you type CLOSE in the console (see ./files/script.js)
+  childProcess.on('exit', (code) =>
+    process.stdout.write(`Child process terminated with code ${code + EOL}`),
+  );
 };
 
 spawnChildProcess(['--write', '--some', '--arguments', '--here']);
