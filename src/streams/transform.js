@@ -3,19 +3,25 @@ import { pipeline } from 'node:stream/promises';
 import { EOL } from 'node:os';
 import { validateError } from '../utils/error/validateError.js';
 
-const transform = async () => {
-  const transformStream = new Transform({
-    transform(chunk, encoding, callback) {
-      const reversedChunk = chunk.toString().trim().split('').reverse().join('');
+class ReverseChunkTransform extends Transform {
+  constructor() {
+    super();
+  }
 
-      callback(null, reversedChunk + EOL);
-    },
-  });
+  _transform(chunk, encoding, callback) {
+    const reversedChunk = chunk.toString().trim().split('').reverse().join('');
+
+    callback(null, reversedChunk + EOL);
+  }
+}
+
+const transform = async () => {
+  const transformStream = new ReverseChunkTransform();
 
   try {
     await pipeline(process.stdin, transformStream, process.stdout);
   } catch (error) {
-    console.error(validateError(error, 'Failed to transform data'))
+    console.error(validateError(error, 'Failed to transform data'));
   }
 };
 
