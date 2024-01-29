@@ -22,8 +22,11 @@ const spawnChildProcess = async (args) => {
     process.stdout.write(`Child process terminated with code ${code + EOL}`),
   );
 
-  // send message to child process using IPC channel
-  childProcess.send('IPC MESSAGE FROM MASTER PROCESS');
+  // IPC (there is no such requirement in the terms of reference)
+  childProcess.on('message', (data) =>
+    console.log('Received from child process: ', data),
+  );
+  childProcess.send('Hello, child!');
 };
 
 spawnChildProcess(['--write', '--some', '--arguments', '--here']);

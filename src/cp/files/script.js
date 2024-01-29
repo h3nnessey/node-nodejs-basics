@@ -11,5 +11,8 @@ const echoInput = (chunk) => {
 
 process.stdin.on('data', echoInput);
 
-// print data from master process using IPC channel
-process.on('message', (data) => console.log(data));
+// IPC (there is no such requirement in the terms of reference)
+process.on('message', (data) =>
+  console.log('Received from master process: ', data),
+);
+process.send('Hello, master!');
