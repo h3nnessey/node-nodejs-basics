@@ -5,7 +5,9 @@ import { getResolvedPath } from '../utils/path/getResolvedPath.js';
 const SCRIPT_PATH = getResolvedPath(import.meta.url, './files/script.js');
 
 const spawnChildProcess = async (args) => {
-  const childProcess = spawn('node', [SCRIPT_PATH, ...args]);
+  const childProcess = spawn('node', [SCRIPT_PATH, ...args], {
+    stdio: ['pipe', 'pipe', 'pipe', 'ipc'],
+  });
 
   // the stdin of the child process receives input data from the stdin of the master process
   process.stdin.on('data', (chunk) =>
@@ -19,6 +21,9 @@ const spawnChildProcess = async (args) => {
   childProcess.on('exit', (code) =>
     process.stdout.write(`Child process terminated with code ${code + EOL}`),
   );
+
+  // send message to child process using IPC channel
+  childProcess.send('IPC MESSAGE FROM MASTER PROCESS');
 };
 
 spawnChildProcess(['--write', '--some', '--arguments', '--here']);
