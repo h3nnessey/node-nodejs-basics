@@ -24,7 +24,7 @@ const spawnChildProcess = async (args) => {
 
   // IPC (there is no such requirement in the terms of reference)
   childProcess.on('message', (data) =>
-    console.log('Received from child process: ', data),
+    console.log('[IPC] Received from child process: ', data),
   );
   childProcess.send('Hello, child!');
 };

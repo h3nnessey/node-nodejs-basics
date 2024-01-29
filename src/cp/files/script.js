@@ -13,6 +13,6 @@ process.stdin.on('data', echoInput);
 
 // IPC (there is no such requirement in the terms of reference)
 process.on('message', (data) =>
-  console.log('Received from master process: ', data),
+  console.log('[IPC] Received from master process: ', data),
 );
 process.send('Hello, master!');
