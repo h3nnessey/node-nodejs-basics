@@ -13,7 +13,7 @@ const createWorker = (workerPath, workerData) =>
     worker.on('error', reject);
   });
 
-const mapWorkerResults = (results) =>
+const mapWorkersResults = (results) =>
   results.map(({ status, value }) => {
     const isFailed = status === 'rejected';
 
@@ -28,8 +28,8 @@ const performCalculations = async () => {
     createWorker(WORKER_PATH, { n: INITIAL_N + index }),
   );
 
-  const workerResults = await Promise.allSettled(workers);
-  const mappedResults = mapWorkerResults(workerResults);
+  const workersResults = await Promise.allSettled(workers);
+  const mappedResults = mapWorkersResults(workersResults);
 
   console.log(mappedResults);
 };
