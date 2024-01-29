@@ -3,7 +3,11 @@ const SEPARATOR = '; ';
 
 const parseEnv = () => {
   const parsedEnv = Object.entries(process.env)
-    .reduce((acc, [key, value]) => (key.startsWith(PREFIX) ? [...acc, `${key}=${value}`] : acc), [])
+    .reduce(
+      (acc, [key, value]) =>
+        key.startsWith(PREFIX) ? [...acc, `${key}=${value}`] : acc,
+      [],
+    )
     .join(SEPARATOR);
 
   console.log(parsedEnv);

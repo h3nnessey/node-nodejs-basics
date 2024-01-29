@@ -1,3 +1,4 @@
+const PREFIX = '--';
 const SEPARATOR = ', ';
 
 const parseArgs = () => {
@@ -5,7 +6,9 @@ const parseArgs = () => {
   const parsedArgs = args
     .reduce(
       (acc, curr, i) =>
-        curr.startsWith('--') && args[i + 1] ? [...acc, `${curr.slice(2)} is ${args[i + 1]}`] : acc,
+        curr.startsWith(SEPARATOR) && args[i + 1]
+          ? [...acc, `${curr.slice(2)} is ${args[i + 1]}`]
+          : acc,
       [],
     )
     .join(SEPARATOR);
